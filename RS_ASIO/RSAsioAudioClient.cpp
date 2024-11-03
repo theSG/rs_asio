@@ -644,26 +644,31 @@ void RSAsioAudioClient::UpdateChannelMap()
 	{
 		WORD i = baseChannel;
 		WORD srcChannel = 0;
-		while (i < m_ChannelMap.size() && srcChannel < numRequestedChannels)
-		{
-			m_ChannelMap[i] = srcChannel;
-			++srcChannel;
-			++i;
-		}
 
-		if (altOutputBaseChannel != baseChannel)
-		{
-			i = altOutputBaseChannel;
-			srcChannel = 0;
+		if (altOutputBaseChannel < 2) ///thesg
+			m_ChannelMap[0] = altOutputBaseChannel;
+		else
+			
 			while (i < m_ChannelMap.size() && srcChannel < numRequestedChannels)
 			{
-				// don't overwrite primary base channel
-				if (m_ChannelMap[i] == -1)
-					m_ChannelMap[i] = srcChannel;
+				m_ChannelMap[i] = srcChannel;
 				++srcChannel;
 				++i;
 			}
-		}
+
+			/*		if (altOutputBaseChannel != baseChannel)
+					{
+						i = altOutputBaseChannel;
+						srcChannel = 0;
+						while (i < m_ChannelMap.size() && srcChannel < numRequestedChannels)
+						{
+							// don't overwrite primary base channel
+							if (m_ChannelMap[i] == -1)
+								m_ChannelMap[i] = srcChannel;
+							++srcChannel;
+							++i;
+						}
+					}*/
 	}
 	else
 	{
